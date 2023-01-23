@@ -6,15 +6,15 @@
 </head>
 <body>
 
-<div th:each="book: ${books}">
-    <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
+<div th:each="book : ${books}">
+    <a th:href="@{/books/{id}(id=${book.getId_book()})}"
        th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' +book.getYear()}">user</a>
 </div>
 
 <br/>
 <hr/>
 
-<a href="/books/new">Create new person</a>
+<a href="/books/new">Добавить книгу</a>
 
 </body>
 </html>

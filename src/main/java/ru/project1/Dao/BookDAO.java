@@ -16,9 +16,16 @@ public class BookDAO {
     public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
     public List<Book> index() {
         return jdbcTemplate.query("SELECT * FROM book", new BeanPropertyRowMapper<>(Book.class));
+    }
+    public void setBook(int id_book, Integer id_person){
+        jdbcTemplate.update("UPDATE book SET id_person=? WHERE id_book=?", id_person,id_book);
+    }
+
+    public Book show(int id) {
+        return jdbcTemplate.query("SELECT * FROM book WHERE id_book=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+                .stream().findAny().orElse(null);
     }
     public void save(Book book) {
         jdbcTemplate.update("INSERT INTO book(title,author,year) VALUES(?,?,?)", book.getTitle(),book.getAuthor(),book.getYear());

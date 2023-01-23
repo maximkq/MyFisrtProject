@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/people")
-@ComponentScan("src.webapp.WEB-INF.views")
+@ComponentScan("src.webapp.WEB-INF.views.Person")
 public class PeopleControler {
     private final PersonDAO personDAO;
 
@@ -25,17 +25,17 @@ public class PeopleControler {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", personDAO.index());
-        return "index";
+        return "Person/index";
     }
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
-        return "new";
+        return "Person/new";
     }
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "new";
+            return "Person/new";
 
         personDAO.save(person);
         return "redirect:/people";
@@ -43,19 +43,20 @@ public class PeopleControler {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
-        return "show";
+        model.addAttribute("listOfBooks",personDAO.isHaveBooks(id));
+        return "Person/show";
     }
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", personDAO.show(id));
-        return "edit";
+        return "Person/edit";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
-            return "edit";
+            return "Person/edit";
 
         personDAO.update(id, person);
         return "redirect:/people";

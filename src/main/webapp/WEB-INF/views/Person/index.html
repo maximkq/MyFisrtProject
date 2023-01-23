@@ -8,7 +8,7 @@
 
 <div th:each="person : ${people}">
   <a th:href="@{/people/{id}(id=${person.getId()})}"
-     th:text="${person.getFIO() + ', ' + person.getAge()}">user</a>
+     th:text="${person.getFIO() + ', ' + person.getDate_of_birth()}">user</a>
 </div>
 
 <br/>
