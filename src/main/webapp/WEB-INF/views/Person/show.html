@@ -5,16 +5,18 @@
     <title>Show</title>
 </head>
 <body>
-<p th:text="${person.getFIO() + ', ' + person.getDate_of_birth()}">VALUE</p>
-<p th:if="${!listOfBooks.isEmpty()}">Книги:</p>
+<p th:text="${person.get().getFIO() + ', ' + person.get().getDate_of_birth()}">VALUE</p>
 <a th:if="${listOfBooks.isEmpty()}">Человек пока не взял ни одной книги</a>
+<form th:if="${!listOfBooks.isEmpty()}">
+<p>Книги:</p>
 <div th:if="${!listOfBooks.isEmpty()}" th:each="book : ${listOfBooks}">
-    <a th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' +book.getYear()}">user</a>
+    <a th:style="${book.isExpired()} ? 'color:red':'color:black' " th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' +book.getYear()}">user</a>
 </div>
-<form th:action="@{/people/{id}/edit(id=${person.getId()})}" method="get" target="_blank">
+</form>
+<form th:action="@{/people/{id}/edit(id=${person.get().getId()})}" method="get" target="_blank">
     <button type="submit">Редактировать</button>
 </form>
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.get().getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
 
